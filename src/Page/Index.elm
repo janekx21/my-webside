@@ -140,11 +140,14 @@ bioData : DataSource String
 bioData =
     DataSource.Http.request
         (Secrets.succeed
-            { url = "https://api.github.com/users/janekx21"
-            , method = "GET"
-            , body = DataSource.Http.emptyBody
-            , headers = []
-            }
+            (\githubTokenBase64 ->
+                { url = "https://api.github.com/users/janekx21"
+                , method = "GET"
+                , body = DataSource.Http.emptyBody
+                , headers = [ ( "Authorization", "Basic " ++ githubTokenBase64 ) ]
+                }
+            )
+            |> Secrets.with "GITHUB_TOKEN_BASE64"
         )
         (Decode.field "bio" Decode.string)
 
@@ -184,11 +187,14 @@ repoData : DataSource (List Repository)
 repoData =
     DataSource.Http.request
         (Secrets.succeed
-            { url = "https://api.github.com/users/janekx21/repos"
-            , method = "GET"
-            , body = DataSource.Http.emptyBody
-            , headers = []
-            }
+            (\githubTokenBase64 ->
+                { url = "https://api.github.com/users/janekx21/repos"
+                , method = "GET"
+                , body = DataSource.Http.emptyBody
+                , headers = [ ( "Authorization", "Basic " ++ githubTokenBase64 ) ]
+                }
+            )
+            |> Secrets.with "GITHUB_TOKEN_BASE64"
         )
         reposDecoder
 
