@@ -8,7 +8,7 @@ on:
   pull_request:
 
 jobs:
-  check-bats-version:
+  build-elm-pages:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -18,6 +18,9 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run build
+        env:
+          GITHUB_TOKEN_BASE64: vars._GITHUB_TOKEN_BASE64
+          API_KEY: vars.API_KEY
       - uses: actions/upload-artifact@v3
         with:
           name: Dist
