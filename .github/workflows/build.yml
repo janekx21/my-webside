@@ -19,8 +19,8 @@ jobs:
       - run: npm ci
       - run: npm run build
         env:
-          GITHUB_TOKEN_BASE64: vars._GITHUB_TOKEN_BASE64
-          API_KEY: vars.API_KEY
+          GITHUB_TOKEN_BASE64: ${{ vars._GITHUB_TOKEN_BASE64 }}
+          API_KEY: ${{ vars.API_KEY }}
       - uses: actions/upload-artifact@v3
         with:
           name: Dist
